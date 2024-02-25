@@ -16,6 +16,7 @@ defmodule Coldstat.Communications.Helper do
     HTTPoison.request(params.method, params.endpoint, params.payload, headers)
   end
 
+  @spec generate_headers(String.t()) :: [Tuple.t()]
   defp generate_headers(payload) do
     [
       {"X-Hub88-Signature", generate_signature(payload)}
@@ -31,8 +32,8 @@ defmodule Coldstat.Communications.Helper do
     HmCrypto.sign!(payload, @digest_type, private_key)
   end
 
-  @spec validate_signature(String.t(), String.t()) :: boolean()
-  def validate_signature(payload, signature) do
+  @spec validate_signature?(String.t(), String.t()) :: boolean()
+  def validate_signature?(payload, signature) do
     path = Application.app_dir(:coldstat, "priv/files")
 
     public_key = File.read!("#{path}/public_key.pem")

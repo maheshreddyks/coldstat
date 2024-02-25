@@ -10,6 +10,11 @@ defmodule ColdstatWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :x_sig_auth do
+    plug :accepts, ["json"]
+    plug ColdstatWeb.Plugs.XSigAuth
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -18,6 +23,12 @@ defmodule ColdstatWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/api/", ColdstatWeb do
+    pipe_through :x_sig_auth
+
+    resources "/user_balances", BalanceController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
