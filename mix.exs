@@ -52,7 +52,9 @@ defmodule Coldstat.MixProject do
       {:hm_crypto, "~> 0.1.3"},
       {:httpoison, "~> 2.0"},
       {:uuid, "~> 1.1"},
-      {:hammer, "~> 6.1"}
+      {:hammer, "~> 6.1"},
+      {:hammer_plug, "~> 3.0"},
+      {:skooma, "~> 0.2.0"}
     ]
   end
 

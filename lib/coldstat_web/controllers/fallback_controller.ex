@@ -14,6 +14,30 @@ defmodule ColdstatWeb.FallbackController do
     |> render("error.json", changeset: changeset)
   end
 
+  # This clause handles errors returned by Ecto's insert/update/delete.
+  def call(conn, {:error, [error_message]}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(ColdstatWeb.ErrorView)
+    |> json(%{error: error_message})
+  end
+
+  # This clause handles errors returned by Ecto's insert/update/delete.
+  def call(conn, {:error, error_message}) when is_binary(error_message) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(ColdstatWeb.ErrorView)
+    |> json(%{error: error_message})
+  end
+
+  # This clause handles errors returned by Ecto's insert/update/delete.
+  def call(conn, {:error, error_message}) when is_atom(error_message) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(ColdstatWeb.ErrorView)
+    |> json(%{error: "#{error_message}"})
+  end
+
   # This clause is an example of how to handle resources that cannot be found.
   def call(conn, {:error, :not_found}) do
     conn

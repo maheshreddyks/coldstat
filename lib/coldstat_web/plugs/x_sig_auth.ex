@@ -7,7 +7,7 @@ defmodule ColdstatWeb.Plugs.XSigAuth do
   def call(conn, _params) do
     case get_req_header(conn, "x-hub88-signature") |> Enum.at(0) do
       nil ->
-        send_unauthorized(conn)
+        conn
 
       signature ->
         payload = conn.params |> Jason.encode!()

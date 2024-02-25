@@ -14,5 +14,7 @@ defmodule Coldstat.Users.Balance do
     balance
     |> cast(attrs, [:user_id, :amount])
     |> validate_required([:user_id, :amount])
+    |> unique_constraint(:user_id, message: "This user_id is already recorded")
+    |> validate_number(:amount, greater_than_or_equal_to: 0, message: "Balance Insufficient")
   end
 end

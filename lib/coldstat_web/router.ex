@@ -29,7 +29,9 @@ defmodule ColdstatWeb.Router do
   scope "/api/", ColdstatWeb do
     pipe_through :x_sig_auth
 
-    resources "/user_balances", BalanceController, except: [:new, :edit]
+    get "/user_balance/:user_id", BalanceController, :show
+    post "/user_balance/win", BalanceController, :credit_transaction
+    post "/user_balance/lose", BalanceController, :debit_transaction
   end
 
   # Other scopes may use custom stacks.
