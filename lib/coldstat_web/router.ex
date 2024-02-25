@@ -12,6 +12,7 @@ defmodule ColdstatWeb.Router do
 
   pipeline :x_sig_auth do
     plug :accepts, ["json"]
+    plug ColdstatWeb.Plugs.Idempotency
     plug ColdstatWeb.Plugs.XSigAuth
   end
 

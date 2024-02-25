@@ -50,7 +50,9 @@ defmodule Coldstat.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:hm_crypto, "~> 0.1.3"},
-      {:httpoison, "~> 2.0"}
+      {:httpoison, "~> 2.0"},
+      {:uuid, "~> 1.1"},
+      {:hammer, "~> 6.1"}
     ]
   end
 
