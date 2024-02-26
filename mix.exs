@@ -7,10 +7,18 @@ defmodule Coldstat.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: [] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.cobertura": :test
+      ]
     ]
   end
 
@@ -54,7 +62,8 @@ defmodule Coldstat.MixProject do
       {:uuid, "~> 1.1"},
       {:hammer, "~> 6.1"},
       {:hammer_plug, "~> 3.0"},
-      {:skooma, "~> 0.2.0"}
+      {:skooma, "~> 0.2.0"},
+      {:excoveralls, "~> 0.18", only: :test}
     ]
   end
 
