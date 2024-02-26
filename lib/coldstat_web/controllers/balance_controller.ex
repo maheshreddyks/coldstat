@@ -14,14 +14,14 @@ defmodule ColdstatWeb.BalanceController do
 
   def credit_transaction(conn, params) do
     with :ok <- Skooma.valid?(params, valid_schema()),
-         {:ok, %Balance{} = balance} <- Users.execute_transaction(params, :credit) do
+         {:ok, {:ok, balance}} <- Users.execute_transaction(params, :credit) do
       render(conn, "show.json", balance: balance)
     end
   end
 
   def debit_transaction(conn, params) do
     with :ok <- Skooma.valid?(params, valid_schema()),
-         {:ok, %Balance{} = balance} <- Users.execute_transaction(params, :debit) do
+         {:ok, {:ok, balance}} <- Users.execute_transaction(params, :debit) do
       render(conn, "show.json", balance: balance)
     end
   end

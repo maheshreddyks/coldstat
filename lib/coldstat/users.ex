@@ -76,21 +76,25 @@ defmodule Coldstat.Users do
 
   """
   def execute_transaction(attrs, type) do
-    if balance = get_balance!(attrs["user_id"]) do
-      case to_integer(attrs["amount"]) do
-        nil ->
-          {:error, :issue_with_amount}
+    case to_integer(attrs["amount"]) do
+      nil ->
+        {:error, :issue_with_amount}
 
-        amount ->
-          update_attrs =
-            if type == :credit,
-              do: %{amount: balance.amount + amount},
-              else: %{amount: balance.amount - amount}
+      amount ->
+        Repo.transaction(fn ->
+          balance = get_balance!(attrs["user_id"])
 
-          update_balance(balance, update_attrs)
-      end
-    else
-      {:error, :no_user_found}
+          if balance do
+            new_balance =
+              if type == :credit, do: balance.amount + amount, else: balance.amount - amount
+
+            balance
+            |> Balance.changeset(%{amount: new_balance})
+            |> Repo.update()
+          else
+            {:error, :no_user_found}
+          end
+        end)
     end
   end
 

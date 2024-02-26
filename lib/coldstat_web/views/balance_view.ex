@@ -6,7 +6,15 @@ defmodule ColdstatWeb.BalanceView do
     %{data: render_many(user_balances, BalanceView, "balance.json")}
   end
 
+  def render("show.json", %{balance: {:ok, balance}}) do
+    %{data: render_one(balance, BalanceView, "balance.json")}
+  end
+
   def render("show.json", %{balance: balance}) do
+    %{data: render_one(balance, BalanceView, "balance.json")}
+  end
+
+  def render("show.json", {:ok, %{balance: balance}}) do
     %{data: render_one(balance, BalanceView, "balance.json")}
   end
 
